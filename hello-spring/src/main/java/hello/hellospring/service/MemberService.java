@@ -21,11 +21,19 @@ public class MemberService {
      */
     public Long join(Member member) {
         //중복회원은 안된다.
-        validateDuplicateMember(member);
-        memberRepository.save(member);
+        long start=System.currentTimeMillis();
+        try {
+            validateDuplicateMember(member);
+            memberRepository.save(member);
 
-        return member.getId();
+            return member.getId();
+        }finally {
+            long finish=System.currentTimeMillis();
+            long timeMs=finish-start;
+            System.out.println("join="+timeMs+"ms");
 
+
+        }
     }
     public List<Member> findMembers(){
         return memberRepository.findAll();
